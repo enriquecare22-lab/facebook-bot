@@ -3,7 +3,6 @@ const { Firestore } = require("@google-cloud/firestore");
 
 // Inicializa Firestore
 const firestore = new Firestore();
-const fetch = require("node-fetch")
 
 // 🔹 Función principal
 exports.publicarPost = async (req, res) => {
