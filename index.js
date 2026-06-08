@@ -3,6 +3,7 @@ const { Firestore } = require("@google-cloud/firestore");
 
 // Inicializa Firestore
 const firestore = new Firestore();
+const fetch = require("node-fetch")
 
 // 🔹 Función principal
 exports.publicarPost = async (req, res) => {
@@ -53,6 +54,19 @@ async function generarConGemini(tema) {
     };
 }
 
+// Subir imagen a ImgBB
+async function subirImgBB(base64Image) {
+    const response = await fetch("https://api.imgbb.com/1/upload", {
+        method: "POST",
+        body: new URLSearchParams({
+            key: process.env.IMGBB_KEY,
+            image: base64Image,
+        }),
+    });
+
+    const data = await response.json();
+    return data.data.url; // URL pública de la imagen
+}
 // 🔹 Subir a Imgur
 async function subirImgur(base64Image) {
     const response = await fetch("https://api.imgur.com/3/image", {
