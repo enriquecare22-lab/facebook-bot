@@ -1,0 +1,29 @@
+name: Publicar Post Diario
+
+on:
+  schedule:
+    - cron: "0 15 * * *"   # todos los días a las 3pm UTC
+  workflow_dispatch:       # ejecución manual
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar script
+        run: node index.js
+        env:
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
+          IMGUR_CLIENT_ID: ${{ secrets.IMGUR_CLIENT_ID }}
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
